@@ -1,0 +1,14 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - "8002:3000" # Stellt sicher, dass der Client auf Port 80 des Hosts verfügbar ist
+  python_server:
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
