@@ -16,16 +16,31 @@ from llama_index.chat_engine import CondenseQuestionChatEngine
 
 # https://dev.to/jakewitcher/using-env-files-for-environment-variables-in-python-applications-55a1
 
-def read_file():
-    print("Current Working Directory:", os.getcwd())
-    with open('../../APIKey/ChatGPT.txt', 'r') as file:
-        data = file.readline()
-        return data.strip()
 
-os.environ["OPENAI_API_KEY"] = read_file()
 
 app = Flask(__name__)
 CORS(app)
+
+def check_first_run():
+    flag_file = 'first_run.flag'
+    if not os.path.exists(flag_file):
+        # If the flag file doesn't exist, this is the first run.
+        # Perform necessary first-run operations here.
+        if delete_all_data():
+            # After successfully performing first-run operations, create the flag file to prevent re-running these operations.
+            with open(flag_file, 'w') as f:
+                f.write('This is not the first run anymore.')
+            print("First run operations completed successfully.")
+        else:
+            print("First run operations failed.")
+
+def read_file():
+    print("Current Working Directory:", os.getcwd())
+    with open('APIKey/ChatGPT.txt', 'r') as file:
+        print("Reading API Key")
+        data = file.readline()
+        print("API Key" + data.strip())
+        return data.strip()
 
 def verify_index_success(index_dir):
     # Überprüfung, ob das Verzeichnis existiert und nicht leer ist
@@ -46,7 +61,6 @@ def verify_index_success(index_dir):
 
     return True  # Wenn alle Überprüfungen erfolgreich sind
 
-
 def create_llama_index():
     try:
         print("Indexing document")
@@ -65,7 +79,6 @@ def create_llama_index():
     except Exception as e:
         return f"An error occured: {e}", 400
     
-
 def get_custom_prompt():
     try:
         print('get_custom_prompt called')
@@ -149,10 +162,6 @@ def delete_all_data():
         print('An error occured: ', e)
         
 
-
-
-
-
 @app.route('/')
 def hello_world():
     return "hello world!"
@@ -190,5 +199,8 @@ def delete_data():
 
 
 
+
 if __name__ == "__main__":
+    os.environ["OPENAI_API_KEY"] = read_file()
+    check_first_run()
     app.run(host='0.0.0.0', port=5000, debug=True)

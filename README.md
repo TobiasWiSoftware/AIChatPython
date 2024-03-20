@@ -1,71 +1,67 @@
-# Python AI Chat App - Dokumentation
+# Python AI Chat App - Documentation
 
-## 1. Used features
+## 1. Used Features
 
-### Framework: React, Flask
+### Frameworks: React, Flask
 
-### Datasource: ChatGPT Api
+### Datasource: ChatGPT API
+
+### Architecture: Client-Server via REST API
 
 ## 2. Setup
 
 ### 2.1 Frontend
 
-- **Command PS:**           `cd client`
-
-- **Command PS:**           `npx create-react-app .`
-
-- **Command PS:**           `npm start`
-
-- **Command PS:**           `npm install bootstrap axois react-router-dom`
-
-- **Command PS:**           `cd src`
-
-- **Command PS:**           `New-Item pages -ItemType Directory`
-
-- **Command PS:**           `cd pages`
-
-- **Command PS:**           `New-Item Chat.jsx`
-
-- **Command PS:**           `New-Item Upload.jsx`
-
-- **Command PS:**           `cd ..`
-
-- **Command PS:**           `New-Item components -ItemType Directory`
-
-- **Command PS:**           `cd components`
-
-- **Command PS:**           `New-Item Navbar.jsx`
-
-- **Command PS:**           `cd..`
-
-- **Command PS:**           `add "proxy": "http://localhost:5000" for server connection`
-
-
-
-
-
+- **PowerShell Command:** `cd client`
+- **PowerShell Command:** `npx create-react-app .`
+- **PowerShell Command:** `npm start`
+- **PowerShell Command:** `npm install bootstrap axios react-router-dom`
+- **PowerShell Command:** `cd src`
+- **PowerShell Command:** `New-Item pages -ItemType Directory`
+- **PowerShell Command:** `cd pages`
+- **PowerShell Command:** `New-Item Chat.jsx`
+- **PowerShell Command:** `New-Item Upload.jsx`
+- **PowerShell Command:** `cd ..`
+- **PowerShell Command:** `New-Item components -ItemType Directory`
+- **PowerShell Command:** `cd components`
+- **PowerShell Command:** `New-Item Navbar.jsx`
+- **PowerShell Command:** `cd ..`
+- **PowerShell Command:** `add "proxy": "http://localhost:5000" to package.json for server connection`
 
 ### 2.2 Backend
 
-- **Command PS:**           `cd server`
+- **PowerShell Command:** `cd server`
+- **PowerShell Command:** `pip install virtualenv`
+- **PowerShell Command:** `virtualenv <name>`
+- **PowerShell Command:** `powershell -ExecutionPolicy Bypass`
+- **PowerShell Command:** `<name>\Scripts\activate`
+- **PowerShell Command:** `pip install flask flask-cors`
+- **PowerShell Command:** `New-Item Server.py -ItemType File`
+- **PowerShell Command:** `python Server.py`
+- **PowerShell Command:** `pip freeze > requirements.txt` - Saving the components
 
-- **Command PS:**           `pip install virtualenv`
+## 3. Function of the App
 
-- **Command PS:**           `virtualenv <name>`
+#### When first launched, the API `/delete_all_data` is called to delete all old data in the index (llama-index) and uploads on the server. If the chat is now called, a default message will be returned in the chat due to the error by calling `/ask_ai`, because no documents are available.
 
-- **Command PS:**           `powershell -ExecutionPolicy Bypass`
+<br>
 
-- **Command PS:**           `<name>\Scripts\activate`
+![](Pictures4ReadMe/ChatBeforeUploading.png)
 
-- **Command PS:**           `pip install flask flask-cors`
+<br>
 
-- **Command PS:**           `New-Item Server.py -ItemType File`
+#### A document can now be uploaded by clicking on upload and selecting a document. The repo contains a test file for that purpose.
 
-- **Command PS:**           `python Server.py`
+<br>
 
-- **Command PS:**           `pip freeze > requirements.txt` - saving the components
+![](Pictures4ReadMe/Upload.png)
 
+<br>
 
+#### After the upload, the actor can return to chat and ask which documents are uploaded and what they contain.
 
+<br>
 
+![](Pictures4ReadMe/ChatAfterUploading.png)
 
+<br>
